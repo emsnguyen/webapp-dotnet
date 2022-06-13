@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using WebApp.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<BugTrackingContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("BugTrackingContextPostgresql"),
+    options => options.SetPostgresVersion(new Version(9, 6))));
 
 var app = builder.Build();
 
