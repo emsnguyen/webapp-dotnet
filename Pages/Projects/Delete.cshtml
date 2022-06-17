@@ -1,12 +1,14 @@
-﻿@page
-@model WebApp.Pages.Projects.DetailsModel
+﻿@page "{id:long}"
+@model WebApp.Pages.Projects.DeleteModel
 @{
-    ViewData["Title"] = "Project Details";
+    ViewData["Title"] = "Project Delete";
 }
+<p class="text-danger">@Model.ErrorMessage</p>
 
-<h2>Project Details Page</h2>
+<h3>Are you sure you want to delete this?</h3>
 
 <div>
+    <h4>Project</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -28,5 +30,9 @@
             @Html.DisplayFor(model => model.Project.CreatedAt)
         </dd>
     </dl>
-    <a asp-page="./Index">Back to List</a>
+    <form method="post">
+        <input type="hidden" asp-for="Project.ProjectId" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
 </div>

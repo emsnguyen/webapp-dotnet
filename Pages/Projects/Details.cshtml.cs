@@ -10,7 +10,7 @@ namespace WebApp.Pages.Projects
     public class DetailsModel : PageModel
     {
         private readonly BugTrackingContext _context;
-        public Project Project { get; set; }
+        public Project? Project { get; set; }
 
         private readonly ILogger<DetailsModel> _logger;
         public DetailsModel(BugTrackingContext context, ILogger<DetailsModel> logger)
@@ -19,7 +19,7 @@ namespace WebApp.Pages.Projects
             _logger = logger;
         }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(long? id)
         {
             if (id == null)
             {
@@ -28,7 +28,7 @@ namespace WebApp.Pages.Projects
 
             Project = await _context.Projects.FirstOrDefaultAsync (m => m.ProjectId == id);
 
-            _logger.LogInformation("Project details: {}", Project);
+            _logger.LogDebug("Project details: {}", Project);
             
             if (Project == null)
             {

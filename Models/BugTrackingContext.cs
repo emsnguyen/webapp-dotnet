@@ -11,8 +11,6 @@ public class BugTrackingContext : DbContext
     public DbSet<IssueUpdateHistory>? IssueUpdateHistories { get; set; }
     public DbSet<Comment>? Comments { get; set; }
 
-    public string DbPath { get; }
-
     public BugTrackingContext(DbContextOptions<BugTrackingContext> options) : base(options)
     {
     }

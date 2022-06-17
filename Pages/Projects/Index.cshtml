@@ -1,14 +1,16 @@
 ﻿@page
 @model WebApp.Pages.Projects.IndexModel
+
 @{
-    ViewData["Title"] = "Projects List Page";
+    ViewData["Title"] = "Index";
 }
 
-<h2>Projects List Page</h2>
+<h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-page="Create">Create New</a>
 </p>
+
 <form asp-page="./Index" method="get">
     <div class="form-actions no-color">
         <p>
@@ -18,57 +20,66 @@
         </p>
     </div>
 </form>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
-                    asp-route-currentFilter="@Model.CurrentFilter">
-                    @Html.DisplayNameFor(model => model.Projects[0].Name)
-                </a>
-            </th>
-            <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort"
-                    asp-route-currentFilter="@Model.CurrentFilter">
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+                       asp-route-currentFilter="@Model.CurrentFilter">
+                        @Html.DisplayNameFor(model => model.Projects[0].Name)
+                    </a>
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Projects[0].Description)
-                </a>
-            </th>
+                </th>
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort"
+                       asp-route-currentFilter="@Model.CurrentFilter">
+                        @Html.DisplayNameFor(model => model.Projects[0].CreatedAt)
+                    </a>
+</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Projects)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.ProjectId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.ProjectId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.ProjectId">Delete</a>
-                </td>
-            </tr>
-        }
+@foreach (var item in Model.Projects) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ProjectId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ProjectId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ProjectId">Delete</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>
 
-@* @{
+@{
     var prevDisabled = !Model.Projects.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.Projects.HasNextPage ? "disabled" : "";
 }
 
-<a asp-page="./Index" asp-route-sortOrder="@Model.CurrentSort" asp-route-pageIndex="@(Model.Projects.PageIndex - 1)"
-    asp-route-currentFilter="@Model.CurrentFilter" class="btn btn-default @prevDisabled">
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Projects.PageIndex - 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-default @prevDisabled">
     Previous
 </a>
-<a asp-page="./Index" asp-route-sortOrder="@Model.CurrentSort" asp-route-pageIndex="@(Model.Projects.PageIndex + 1)"
-    asp-route-currentFilter="@Model.CurrentFilter" class="btn btn-default @nextDisabled">
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Projects.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-default @nextDisabled">
     Next
-</a> *@
+</a>
