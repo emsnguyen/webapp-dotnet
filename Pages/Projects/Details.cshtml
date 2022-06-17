@@ -1,0 +1,32 @@
+﻿@page
+@model WebApp.Pages.Projects.DetailsModel
+@{
+    ViewData["Title"] = "Project Details";
+}
+
+<h2>Project Details Page</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.CreatedAt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.CreatedAt)
+        </dd>
+    </dl>
+    <a asp-page="./Index">Back to List</a>
+</div>

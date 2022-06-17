@@ -11,17 +11,9 @@ public class BugTrackingContext : DbContext
     public DbSet<IssueUpdateHistory>? IssueUpdateHistories { get; set; }
     public DbSet<Comment>? Comments { get; set; }
 
-    public string DbPath { get; }
-
-    public BugTrackingContext()
+    public BugTrackingContext(DbContextOptions<BugTrackingContext> options) : base(options)
     {
-        DbPath = "Host=localhost;Database=bugtracking;Username=emilynguyen;Password=emilynguyen";
     }
-
-    // The following configures EF to create a Sqlite database file in the
-    // special "local" folder for your platform.
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseNpgsql(DbPath, options => options.SetPostgresVersion(new Version(9, 6)));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -83,32 +75,32 @@ public class BugTrackingContext : DbContext
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-	{
-		var insertedEntries = this.ChangeTracker.Entries()
-							   .Where(x => x.State == EntityState.Added)
-							   .Select(x => x.Entity);
-		foreach(var insertedEntry in insertedEntries)
-		{
-			var auditableEntity = insertedEntry as Auditable;
-			//If the inserted object is an Auditable. 
-			if(auditableEntity != null)
-			{
-				auditableEntity.CreatedAt = DateTimeOffset.UtcNow;
+    {
+        var insertedEntries = this.ChangeTracker.Entries()
+                               .Where(x => x.State == EntityState.Added)
+                               .Select(x => x.Entity);
+        foreach (var insertedEntry in insertedEntries)
+        {
+            var auditableEntity = insertedEntry as Auditable;
+            //If the inserted object is an Auditable. 
+            if (auditableEntity != null)
+            {
+                auditableEntity.CreatedAt = DateTimeOffset.UtcNow;
                 auditableEntity.UpdatedAt = DateTimeOffset.UtcNow;
-			}
-		}
-		var modifiedEntries = this.ChangeTracker.Entries()
-				   .Where(x => x.State == EntityState.Modified)
-				   .Select(x => x.Entity);
-		foreach (var modifiedEntry in modifiedEntries)
-		{
-			//If the inserted object is an Auditable. 
-			var auditableEntity = modifiedEntry as Auditable;
-			if (auditableEntity != null)
-			{
-				auditableEntity.UpdatedAt = DateTimeOffset.UtcNow;
-			}
-		}
-		return base.SaveChangesAsync(cancellationToken);
-	}
+            }
+        }
+        var modifiedEntries = this.ChangeTracker.Entries()
+                   .Where(x => x.State == EntityState.Modified)
+                   .Select(x => x.Entity);
+        foreach (var modifiedEntry in modifiedEntries)
+        {
+            //If the inserted object is an Auditable. 
+            var auditableEntity = modifiedEntry as Auditable;
+            if (auditableEntity != null)
+            {
+                auditableEntity.UpdatedAt = DateTimeOffset.UtcNow;
+            }
+        }
+        return base.SaveChangesAsync(cancellationToken);
+    }
 }
